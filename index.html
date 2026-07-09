@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTINEL-7 // Abyssal Access Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="ocean-bg">
+    <div class="caustics"></div>
+    <div class="ray ray1"></div>
+    <div class="ray ray2"></div>
+    <div class="ray ray3"></div>
+    <div class="ray ray4"></div>
+    <div class="seaweed" style="left:4%;"></div>
+    <div class="seaweed" style="left:12%; height:18vh; animation-delay:1.2s;"></div>
+    <div class="seaweed" style="right:6%; height:22vh; animation-delay:.5s;"></div>
+    <div id="bubbleField"></div>
+  </div>
+
+  <div class="sonar"></div>
+  <div class="sonar s2"></div>
+  <div class="sonar s3"></div>
+
+  <!-- ROBOTIC SHARK -->
+  <div class="shark-wrap">
+    <div class="shark-bob">
+      <svg id="sharkSvg" viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="eyeClip">
+            <circle cx="70" cy="140" r="16"/>
+          </clipPath>
+          <linearGradient id="chromeBody" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#f4f8fb"/>
+            <stop offset="45%" stop-color="#aab7c4"/>
+            <stop offset="70%" stop-color="#5b6773"/>
+            <stop offset="100%" stop-color="#242b33"/>
+          </linearGradient>
+          <linearGradient id="chromeFin" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#dfe6ec"/>
+            <stop offset="100%" stop-color="#232a31"/>
+          </linearGradient>
+          <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff2f2"/>
+            <stop offset="35%" stop-color="#ff5c6c"/>
+            <stop offset="100%" stop-color="#ff0018" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="gillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff2d40"/>
+            <stop offset="100%" stop-color="#7a0d17"/>
+          </linearGradient>
+        </defs>
+
+        <!-- tail -->
+        <g class="tail">
+          <path d="M20,130 L70,95 L95,130 L70,150 L95,168 L70,200 L20,150 Z" fill="url(#chromeFin)" stroke="#0c1116" stroke-width="1.5"/>
+        </g>
+
+        <!-- lower/pectoral fin -->
+        <g class="pectoral">
+          <path d="M300,160 C330,205 300,240 250,248 C280,215 285,185 300,160 Z" fill="url(#chromeFin)" stroke="#0c1116" stroke-width="1.5"/>
+        </g>
+
+        <!-- dorsal fin -->
+        <path d="M330,95 C345,40 372,12 400,4 C388,40 392,70 395,98 Z" fill="url(#chromeFin)" stroke="#0c1116" stroke-width="1.5"/>
+
+        <!-- body -->
+        <path d="M95,150
+                 C120,95 190,70 280,72
+                 C360,73 420,90 470,112
+                 C520,132 575,140 625,150
+                 C575,158 520,166 470,182
+                 C420,200 360,212 280,208
+                 C190,205 120,190 95,150 Z"
+              fill="url(#chromeBody)" stroke="#0c1116" stroke-width="1.8"/>
+
+        <!-- belly seam line -->
+        <path d="M110,152 C220,178 400,182 610,150" fill="none" stroke="#1b2229" stroke-width="1" opacity=".5"/>
+        <path d="M120,140 C230,118 400,110 600,140" fill="none" stroke="#ffffff" stroke-width="1" opacity=".25"/>
+
+        <!-- panel seams (robotic detail) -->
+        <path d="M180,100 L180,190 M215,95 L215,196 M250,92 L250,200" stroke="#0c1116" stroke-width="1" opacity=".35"/>
+        <circle cx="170" cy="118" r="2" fill="#0c1116" opacity=".5"/>
+        <circle cx="195" cy="112" r="2" fill="#0c1116" opacity=".5"/>
+        <circle cx="220" cy="108" r="2" fill="#0c1116" opacity=".5"/>
+
+        <!-- mechanical gill housing -->
+        <g>
+          <path d="M370,105 C400,108 420,120 428,150 C420,180 400,192 370,196 C385,165 388,135 370,105 Z" fill="#12161c" stroke="#000" stroke-width="1"/>
+          <rect x="380" y="118" width="6" height="64" rx="2" fill="url(#gillGrad)" class="gill-glow"/>
+          <rect x="392" y="122" width="4" height="56" rx="2" fill="url(#gillGrad)" class="gill-glow" style="animation-delay:.3s"/>
+          <rect x="402" y="126" width="4" height="48" rx="2" fill="url(#gillGrad)" class="gill-glow" style="animation-delay:.6s"/>
+          <circle cx="418" cy="150" r="14" fill="none" stroke="#ff2d40" stroke-width="2" opacity=".8"/>
+          <circle cx="418" cy="150" r="7" fill="#3a0509"/>
+        </g>
+
+        <!-- head + jaw -->
+        <path d="M95,150 C60,145 25,140 5,150 C25,158 45,172 60,190 C75,205 95,208 115,196 C100,180 95,165 95,150 Z"
+              fill="url(#chromeBody)" stroke="#0c1116" stroke-width="1.8"/>
+        <path d="M15,158 C45,170 75,182 108,190" fill="none" stroke="#0c1116" stroke-width="1" opacity=".4"/>
+
+        <!-- teeth -->
+        <g fill="#e9eef2" stroke="#0c1116" stroke-width=".6">
+          <polygon points="25,163 31,163 28,175"/>
+          <polygon points="35,168 41,168 38,180"/>
+          <polygon points="45,173 51,173 48,185"/>
+          <polygon points="55,177 61,177 58,189"/>
+          <polygon points="65,180 71,180 68,192"/>
+        </g>
+        <path d="M20,158 C50,172 82,182 108,188" fill="none" stroke="#ff2d40" stroke-width="1.4" opacity=".55"/>
+
+        <!-- eye -->
+        <circle cx="70" cy="140" r="16" fill="#0c1116"/>
+        <circle class="eye-glow" cx="70" cy="140" r="9" fill="url(#eyeGlow)"/>
+        <circle cx="70" cy="140" r="3" fill="#fff"/>
+
+        <!-- eyelid (closes while typing password) -->
+        <g clip-path="url(#eyeClip)">
+          <rect class="eyelid eyelid-top" x="53" y="123" width="34" height="17" fill="url(#chromeBody)" stroke="#0c1116" stroke-width="1"/>
+          <rect class="eyelid eyelid-bottom" x="53" y="140" width="34" height="17" fill="url(#chromeBody)" stroke="#0c1116" stroke-width="1"/>
+        </g>
+        <line class="eyelid-seam" x1="55" y1="140" x2="85" y2="140" stroke="#05070a" stroke-width="1.4"/>
+
+        <!-- head panel lines -->
+        <path d="M55,105 C75,98 100,98 118,105" fill="none" stroke="#0c1116" stroke-width="1" opacity=".4"/>
+        <rect x="60" y="112" width="26" height="4" rx="2" fill="#0c1116" opacity=".4"/>
+
+        <!-- second tail fin small -->
+        <path d="M30,140 L15,120 L10,140 L15,160 Z" fill="url(#chromeFin)" stroke="#0c1116" stroke-width="1" opacity=".9"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- LOGIN PANEL -->
+  <main class="panel">
+    <div class="eyebrow"><span class="dot"></span> SISTEM PERTAHANAN LAUT DALAM <span class="dot"></span></div>
+    <h1 class="title title-flicker">SENTINEL-7</h1>
+    <p class="subtitle">Terminal Akses Operator <span class="live">// ONLINE</span></p>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="user">ID Operator</label>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+        <input id="user" type="text" placeholder="masukkan ID operator" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="pass">Kata Sandi</label>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input id="pass" type="password" placeholder="••••••••" autocomplete="current-password">
+        <button type="button" class="toggle-vis" id="toggleVis" aria-label="Tampilkan sandi">
+          <svg id="eyeOpenIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg id="eyeClosedIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.83 2.83"/><path d="M9.5 5.3A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a17.6 17.6 0 0 1-3.1 3.9M6.5 6.6C3.7 8.3 1 12 1 12s4 7 11 7c1.3 0 2.5-.2 3.6-.6"/></svg>
+        </button>
+      </div>
+
+      <div class="row">
+        <label><input type="checkbox" style="accent-color:#12c9d6;"> Ingat perangkat</label>
+        <a href="#">Lupa sandi?</a>
+      </div>
+
+      <p id="loginAlert" class="alert"></p>
+
+      <button class="dive" type="submit">Selami Sistem</button>
+
+      <p class="switch-auth">Belum jadi operator? <a href="signup.html">Daftar unit baru</a></p>
+    </form>
+
+    <div class="statusbar"><span>SONAR: AKTIF &nbsp;&nbsp;•&nbsp;&nbsp; KEDALAMAN: 4.821 M &nbsp;&nbsp;•&nbsp;&nbsp; INTEGRITAS LAMBUNG: 98% &nbsp;&nbsp;•&nbsp;&nbsp; UNIT PATROLI: SENTINEL-7 &nbsp;&nbsp;•&nbsp;&nbsp; KONEKSI TERENKRIPSI</span></div>
+
+    <div class="comms">
+      <a class="comms-link" href="https://www.instagram.com/lukman_9l?igsh=NjdtZ3pxMW00N2Vr&utm_source=qr" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <span>TRANSMISI OPERATOR</span>
+        <span class="comms-ping"></span>
+      </a>
+    </div>
+
+    <footer class="note">ABYSSAL DEFENSE NETWORK — AKSES TERBATAS</footer>
+  </main>
+
+<script src="auth.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
