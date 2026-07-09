@@ -57,17 +57,34 @@ toggleVis.addEventListener('click', () => {
 
 /* ---------- LOGIN SUBMIT -> DIVE SEQUENCE ---------- */
 const form = document.getElementById('loginForm');
+const loginAlert = document.getElementById('loginAlert');
+
+function showAlert(el, message, isError) {
+  if (!el) return;
+  el.textContent = message;
+  el.classList.remove('alert-error', 'alert-ok');
+  el.classList.add(isError ? 'alert-error' : 'alert-ok');
+  el.classList.add('show');
+}
+
 if (form) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const diveBtn = document.querySelector('button.dive');
+    const result = logIn(userInput.value, passInput.value);
+
+    if (!result.ok) {
+      showAlert(loginAlert, result.message, true);
+      return;
+    }
+
+    showAlert(loginAlert, 'AKSES DITERIMA — MENYELAM...', false);
     if (diveBtn) {
       diveBtn.textContent = 'MENYELAM...';
       diveBtn.disabled = true;
-      setTimeout(() => {
-        diveBtn.textContent = 'Selami Sistem';
-        diveBtn.disabled = false;
-      }, 1800);
     }
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 1200);
   });
 }
